@@ -20,3 +20,17 @@ Route::get('/', 'PagesController@root')->name('root');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['middleware' =>'auth'], function() {
+
+    Route::get('/email_verify_notice', 'PagesController@emailVerifiedNotice')->name('email_verify_notice');
+
+    //测试 开始
+    Route::group(['middleware' =>'email_verified'], function() {
+        Route::get('/test', function() {
+
+            return 'You email is verified';
+        }) ;
+    });
+});
